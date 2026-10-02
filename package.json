@@ -1,0 +1,26 @@
+{
+  "name": "cir-dossier",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,magenta \"npm run dev -w @cir/api\" \"npm run dev -w @cir/web\"",
+    "build": "npm run build -w @cir/web && npm run build -w @cir/api",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm test --workspaces --if-present",
+    "test:e2e": "playwright test",
+    "db:migrate": "npm run db:migrate -w @cir/api",
+    "db:reset": "npm run db:reset -w @cir/api",
+    "db:seed": "npm run db:seed -w @cir/api"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "concurrently": "^9.2.1"
+  }
+}

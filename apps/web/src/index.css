@@ -1,0 +1,158 @@
+@import "tailwindcss";
+@import "@fontsource/public-sans/400.css";
+@import "@fontsource/public-sans/500.css";
+@import "@fontsource/public-sans/600.css";
+@import "@fontsource/public-sans/700.css";
+@import "@fontsource/source-serif-4/400.css";
+@import "@fontsource/source-serif-4/600.css";
+@import "@fontsource/source-serif-4/400-italic.css";
+
+@theme {
+  --font-sans: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Source Serif 4", Georgia, serif;
+
+  --color-paper: #f6f7f5;
+  --color-surface: #ffffff;
+  --color-ink: #1b2a4a;
+  --color-ink-soft: #33415e;
+  --color-pen: #2f4fa8;
+  --color-pen-dark: #233d85;
+  --color-pen-tint: #e8edf8;
+  --color-graphite: #5e6673;
+  --color-line: #dce0e5;
+  --color-line-strong: #c3c9d1;
+  --color-wax: #8e1f2c;
+  --color-wax-tint: #f6e7e9;
+  --color-ok: #2e6b4f;
+  --color-ok-tint: #e5f0ea;
+  --color-warn: #a86a0b;
+  --color-warn-tint: #fbf1de;
+  --color-bad: #b3261e;
+  --color-bad-tint: #fbe9e7;
+}
+
+@layer base {
+  html {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    min-height: 100dvh;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-pen);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: var(--color-pen-tint);
+  }
+}
+
+/* Fiche de recherche : page de cahier de laboratoire (quadrillage discret). */
+.notebook {
+  background-color: #fff;
+  background-image:
+    linear-gradient(to right, rgb(47 79 168 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(47 79 168 / 0.06) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Contenu rédigé (éditeur TipTap et lecture) : typographie de publication. */
+.prose-dossier {
+  font-family: var(--font-serif);
+  font-size: 1.0667rem;
+  line-height: 1.7;
+  color: var(--color-ink);
+  max-width: 72ch;
+}
+.prose-dossier p {
+  margin: 0 0 0.85em;
+}
+.prose-dossier h2,
+.prose-dossier h3,
+.prose-dossier h4 {
+  margin: 1.4em 0 0.5em;
+  font-size: 1.15rem;
+}
+.prose-dossier ul,
+.prose-dossier ol {
+  margin: 0 0 0.85em 1.4em;
+}
+.prose-dossier ul {
+  list-style: disc;
+}
+.prose-dossier ol {
+  list-style: decimal;
+}
+.prose-dossier blockquote {
+  border-left: 3px solid var(--color-line-strong);
+  padding-left: 1em;
+  color: var(--color-ink-soft);
+}
+.prose-dossier table {
+  border-collapse: collapse;
+  margin: 0.5em 0 1em;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+}
+.prose-dossier td,
+.prose-dossier th {
+  border: 1px solid var(--color-line);
+  padding: 4px 8px;
+  min-width: 60px;
+  vertical-align: top;
+}
+.prose-dossier th {
+  background: var(--color-paper);
+}
+.prose-dossier a {
+  color: var(--color-pen);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.prose-dossier a[href^="cir://ref"] {
+  text-decoration-style: dotted;
+}
+.prose-dossier a[href^="cir://note"] {
+  color: var(--color-ok);
+  text-decoration-style: dotted;
+}
+.prose-dossier .is-editor-empty:first-child::before,
+.prose-dossier p.is-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: var(--color-graphite);
+  float: left;
+  height: 0;
+  pointer-events: none;
+  font-style: italic;
+}
+.ProseMirror {
+  outline: none;
+  min-height: 320px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  aside,
+  .no-print {
+    display: none !important;
+  }
+}

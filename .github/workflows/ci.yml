@@ -1,0 +1,28 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: cir_owner
+          POSTGRES_PASSWORD: cir_owner
+          POSTGRES_DB: cir_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U cir_owner" --health-interval 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - name: Rôle applicatif sans BYPASSRLS
+        run: PGPASSWORD=cir_owner psql -h localhost -U cir_owner -d cir_test -c "CREATE ROLE cir_app LOGIN PASSWORD 'cir_app' NOBYPASSRLS;"
+      - run: npm run typecheck
+      - name: Tests (unitaires, API, isolation RLS, audit)
+        run: npm test
+      - run: npm run build
+      - run: npm audit --omit=dev --audit-level=high
+        continue-on-error: true
